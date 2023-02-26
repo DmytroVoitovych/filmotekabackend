@@ -8,17 +8,25 @@ const {
   checkToken,
   checkList,
   checkFilmId,
+  checkExpire,
 } = require("../../utils/index");
 // const checkFormatId = require('../../validation/funcValidateId');
 
 const router = express.Router();
 
-router.get("/", checkList, checkToken, check(ctrGet));
+router.get(
+  "/",
+  checkList,
+  checkToken,
+  checkExpire,
+  check(ctrGet)
+);
 
 router.post(
   "/add",
   checkList,
   checkToken,
+  checkExpire,
   checkFilmId,
   check(ctrPost)
 );

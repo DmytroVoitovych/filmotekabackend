@@ -6,6 +6,7 @@ const {
   checkToken,
   checkRefresh,
   checkList,
+  checkExpire,
 } = require("../../utils/index");
 const {
   ctrSignUp,
@@ -28,6 +29,7 @@ router.get(
   "/current",
   checkList,
   checkToken,
+  checkExpire,
   check(ctrCurrent)
 ); // перевірка поточного користувача
 

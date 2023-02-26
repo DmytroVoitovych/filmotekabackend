@@ -5,6 +5,7 @@ const checkToken = require("./funcCheckToken");
 const checkRefresh = require("./funcCheckRefreshToken");
 const checkList = require("./funcCheckBlackList");
 const checkFilmId = require("./funcCheckFilmsId");
+const checkExpire = require("./funcExpireControl");
 
 module.exports = {
   check,
@@ -14,4 +15,5 @@ module.exports = {
   checkRefresh,
   checkList,
   checkFilmId,
+  checkExpire,
 };

@@ -7,7 +7,6 @@ const funcGetCurrentUser = async (req, res) => {
 
   const { exp } = jwt.decode(token);
   const die = new Date(exp * 1000).getTime();
-
   const curr = await Action.find({ owner: _id }, "");
 
   res.json({
@@ -19,7 +18,9 @@ const funcGetCurrentUser = async (req, res) => {
       token_die: {
         timeFormat: new Date(die).toLocaleTimeString(
           "en-GB",
-          { timeZone: "Europe/Kiev" }
+          {
+            timeZone: "Europe/Kiev",
+          }
         ),
         jsDate: die,
       },

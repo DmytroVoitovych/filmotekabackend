@@ -5,8 +5,8 @@ const { Google } = require("../models/userGoogle");
 const { SECRET_KEY } = process.env;
 
 const funcCheckToken = async (req, _, next) => {
-  const { authorization = "" } = req.headers; // извлекаем заголовок
-  const [bearer, token] = authorization.split(" "); // разбиваем строку
+  const { authorization = "" } = req.headers; // беру заголовок
+  const [bearer, token] = authorization.split(" "); // забираю данні
 
   try {
     if (bearer !== "Bearer") {
@@ -16,11 +16,11 @@ const funcCheckToken = async (req, _, next) => {
     }
 
     const check = await Google.findOne({
-      email: jwt.decode(token).email,
+      email: jwt.decode(token).email, // перевіряю наявність в базі
     });
 
     const { id } = !check && jwt.verify(token, SECRET_KEY);
-    const user = !check ? await User.findById(id) : check;
+    const user = !check ? await User.findById(id) : check; // записую актуального юзера
 
     if (!user || !user.token) {
       const err = new Error("Not authorized");
@@ -36,7 +36,7 @@ const funcCheckToken = async (req, _, next) => {
 
       if (expire.length > 0) {
         const [{ _id }] = expire;
-        await User.findByIdAndUpdate(_id, { token: null }); // сохраняем токен в базу
+        await User.findByIdAndUpdate(_id, { token: null }); // update token
         error.status = 498;
       } else {
         error.status = 498;
