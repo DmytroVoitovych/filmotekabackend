@@ -1,5 +1,6 @@
 const { User } = require("../models/user");
 const bcrypt = require("bcryptjs"); // хеширование
+const jwt = require("jsonwebtoken");
 
 const funcCheckUser = async ({ body }, _, next) => {
   try {
@@ -48,9 +49,16 @@ const funcCheckUser = async ({ body }, _, next) => {
       err.status = 401;
       throw err;
     } else if (user.token) {
-      const err = new Error("You are already authorized");
-      err.status = 400;
-      throw err;
+      const { exp } = jwt?.decode(user.token);
+
+      if (Math.floor(new Date() / 1000) < exp) {
+        // тест токена
+        // якщо норм далі
+        const err = new Error("You are already authorized");
+        err.status = 400;
+        throw err;
+      }
+      next();
     } else {
       next();
     }
