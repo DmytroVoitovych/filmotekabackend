@@ -18,14 +18,18 @@ const funcCheckToken = async (req, _, next) => {
       throw err;
     }
 
-    const userIP = await User.findOne({ ip });
-
     if (!token || token === "undefined") {
+      const userIP = await User.findOne({ ip });
       // для синхронізації
       const { token } = userIP;
-      jwt.verify(token, SECRET_KEY);
-      req.user = userIP;
-      next();
+      if (token) {
+        jwt.verify(token, SECRET_KEY);
+        req.user = userIP;
+        next();
+      }
+      const err = new Error("Not authorized");
+      err.status = 401;
+      throw err;
     } else {
       const check = await Google.findOne({
         email: jwt.decode(token).email, // перевіряю наявність в базі
