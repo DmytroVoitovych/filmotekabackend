@@ -11,15 +11,10 @@ const funcCheckToken = async (req, _, next) => {
   // const browser = req.headers["sec-ch-ua"] || null; // юзер браузер
 
   try {
-    if (bearer !== "Bearer") {
-      console.log(1);
-      const err = new Error("Not authorized");
-      err.status = 401;
-      throw err;
-    }
-
     if (!token || token === "undefined") {
+      console.log(ip);
       const userIP = await User.findOne({ ip });
+      console.log(userIP);
       // для синхронізації
       if (userIP) {
         const { token } = userIP;
@@ -33,6 +28,13 @@ const funcCheckToken = async (req, _, next) => {
       err.status = 401;
       throw err;
     } else {
+      if (bearer !== "Bearer") {
+        console.log(1);
+        const err = new Error("Not authorized");
+        err.status = 401;
+        throw err;
+      }
+
       const check = await Google.findOne({
         email: jwt.decode(token).email, // перевіряю наявність в базі
       });
