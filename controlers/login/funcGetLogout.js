@@ -13,13 +13,15 @@ const funcGetLogout = async (req, res) => {
     await Google.findByIdAndUpdate(_id, {
       token: null,
     });
-    console.log(googleModel);
+
     return res.status(204).json();
   }
 
   await Blist.create({ token }); // токен в блеклист
   await User.findByIdAndUpdate(_id, {
     token: null,
+    ip: null,
+    browser: null,
   }); // сохраняем токен в базу
   return res.status(204).json();
 };

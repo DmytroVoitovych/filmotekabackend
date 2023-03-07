@@ -8,13 +8,10 @@ const funcCheckToken = async (req, _, next) => {
   const { authorization = "" } = req.headers; // беру заголовок
   const [bearer, token] = authorization.split(" "); // забираю данні
   const ip = req.headers["x-forwarded-for"]; // юзер браузер
-  // const browser = req.headers["sec-ch-ua"] || null; // юзер браузер
 
   try {
     if (!token || token === "undefined") {
-      console.log(ip);
       const userIP = await User.findOne({ ip });
-      console.log(userIP);
       // для синхронізації
       if (userIP) {
         const { token } = userIP;
@@ -45,7 +42,6 @@ const funcCheckToken = async (req, _, next) => {
       const user = !check ? await User.findById(id) : check; // записую актуального юзера
 
       if (!user || !user.token) {
-        console.log(ip);
         const err = new Error("Not authorized");
         err.status = 401;
         throw err;
@@ -60,9 +56,17 @@ const funcCheckToken = async (req, _, next) => {
 
       if (expire.length > 0) {
         const [{ _id }] = expire;
-        await User.findByIdAndUpdate(_id, { token: null }); // update token
+        await User.findByIdAndUpdate(_id, {
+          token: null,
+          ip: null,
+        }); // update token
         error.status = 498;
+        console.log("jj");
       } else {
+        await User.findOneAndUpdate(ip, {
+          token: null,
+          ip: null,
+        }); // update token
         error.status = 498;
       }
     }
