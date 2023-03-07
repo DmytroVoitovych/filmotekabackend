@@ -7,8 +7,11 @@ const validResponse = require("../../auth/token");
 const funcPostLogin = async (req, res, next) => {
   const { email: mail } = req.body;
 
-  const { error } = await validation(req.body);
+  const ip = req.headers["x-forwarded-for"] || null; // юзер браузер
+  const browser = req.headers["sec-ch-ua"] || null; // юзер браузер
 
+  const { error } = await validation(req.body);
+  // sec-ch-ua
   if (error) {
     const err = new Error(error.message);
     err.status = 400;
@@ -17,7 +20,11 @@ const funcPostLogin = async (req, res, next) => {
     const { token, email, name, id, refresh } =
       validResponse(await User.findOne({ email: mail }));
 
-    await User.findByIdAndUpdate(id, { token }); // сохраняем токен в базу
+    await User.findByIdAndUpdate(id, {
+      token,
+      browser,
+      ip,
+    }); // сохраняем токен в базу
     await User.findByIdAndUpdate(id, {
       tokenRefresh: refresh,
     });

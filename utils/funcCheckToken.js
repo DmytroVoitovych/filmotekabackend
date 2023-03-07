@@ -7,29 +7,44 @@ const { SECRET_KEY } = process.env;
 const funcCheckToken = async (req, _, next) => {
   const { authorization = "" } = req.headers; // беру заголовок
   const [bearer, token] = authorization.split(" "); // забираю данні
+  const ip = req.headers["x-forwarded-for"] || null; // юзер браузер
+  // const browser = req.headers["sec-ch-ua"] || null; // юзер браузер
 
   try {
     if (bearer !== "Bearer") {
+      console.log(1);
       const err = new Error("Not authorized");
       err.status = 401;
       throw err;
     }
 
-    const check = await Google.findOne({
-      email: jwt.decode(token).email, // перевіряю наявність в базі
-    });
+    const userIP = await User.findOne({ ip });
 
-    const { id } = !check && jwt.verify(token, SECRET_KEY);
-    const user = !check ? await User.findById(id) : check; // записую актуального юзера
+    if (!token || token === "undefined") {
+      // для синхронізації
+      const { token } = userIP;
+      jwt.verify(token, SECRET_KEY);
+      req.user = userIP;
+      next();
+    } else {
+      const check = await Google.findOne({
+        email: jwt.decode(token).email, // перевіряю наявність в базі
+      });
 
-    if (!user || !user.token) {
-      const err = new Error("Not authorized");
-      err.status = 401;
-      throw err;
+      const { id } =
+        !check && jwt.verify(token, SECRET_KEY);
+      const user = !check ? await User.findById(id) : check; // записую актуального юзера
+
+      if (!user || !user.token) {
+        console.log(ip);
+        const err = new Error("Not authorized");
+        err.status = 401;
+        throw err;
+      }
+
+      req.user = user;
+      next();
     }
-
-    req.user = user;
-    next();
   } catch (error) {
     if (error.message === "jwt expired") {
       const expire = await User.find({ token }, "");

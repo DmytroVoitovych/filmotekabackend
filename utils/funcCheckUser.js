@@ -2,8 +2,13 @@ const { User } = require("../models/user");
 const bcrypt = require("bcryptjs"); // хеширование
 const jwt = require("jsonwebtoken");
 
-const funcCheckUser = async ({ body }, _, next) => {
+const funcCheckUser = async (
+  { body, headers },
+  _,
+  next
+) => {
   try {
+    const borwser = headers["x-forwarded-for"];
     const { email, password } = body; // проверка на наличие и совпадение
     const user = await User.findOne({ email });
 
@@ -51,7 +56,10 @@ const funcCheckUser = async ({ body }, _, next) => {
     } else if (user.token) {
       const { exp } = jwt?.decode(user.token);
 
-      if (Math.floor(new Date() / 1000) < exp) {
+      if (
+        Math.floor(new Date() / 1000) < exp &&
+        borwser === user.browser
+      ) {
         // тест токена
         // якщо норм далі
         const err = new Error("You are already authorized");
