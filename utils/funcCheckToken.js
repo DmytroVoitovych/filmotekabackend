@@ -21,11 +21,13 @@ const funcCheckToken = async (req, _, next) => {
     if (!token || token === "undefined") {
       const userIP = await User.findOne({ ip });
       // для синхронізації
-      const { token } = userIP;
-      if (token) {
-        jwt.verify(token, SECRET_KEY);
-        req.user = userIP;
-        next();
+      if (userIP) {
+        const { token } = userIP;
+        if (token) {
+          jwt.verify(token, SECRET_KEY);
+          req.user = userIP;
+          next();
+        }
       }
       const err = new Error("Not authorized");
       err.status = 401;
