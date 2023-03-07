@@ -22,6 +22,7 @@ const funcCheckToken = async (req, _, next) => {
           jwt.verify(token, SECRET_KEY);
           req.user = userIP;
           next();
+          return;
         }
       }
       const err = new Error("Not authorized");
