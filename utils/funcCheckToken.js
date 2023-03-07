@@ -7,7 +7,7 @@ const { SECRET_KEY } = process.env;
 const funcCheckToken = async (req, _, next) => {
   const { authorization = "" } = req.headers; // беру заголовок
   const [bearer, token] = authorization.split(" "); // забираю данні
-  const ip = req.headers["x-forwarded-for"] || null; // юзер браузер
+  const ip = req.headers["x-forwarded-for"]; // юзер браузер
   // const browser = req.headers["sec-ch-ua"] || null; // юзер браузер
 
   try {
