@@ -20,6 +20,7 @@ const funcGetLogout = async (req, res) => {
   await Blist.create({ token }); // токен в блеклист
   await User.findByIdAndUpdate(_id, {
     token: null,
+    tokenRefresh: null,
     ip: null,
     browser: null,
   }); // сохраняем токен в базу
