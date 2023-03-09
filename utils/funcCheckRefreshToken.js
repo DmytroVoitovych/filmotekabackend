@@ -13,9 +13,9 @@ const funcCheckRefreshToken = async (req, _, next) => {
       const userIP = await User.findOne({ ip });
       // для синхронізації
       if (userIP) {
-        const { refresh } = userIP;
-        if (refresh) {
-          jwt.verify(refresh, REFRESH_KEY);
+        const { tokenRefresh } = userIP;
+        if (tokenRefresh) {
+          jwt.verify(tokenRefresh, REFRESH_KEY);
           req.user = userIP;
           next();
           return;
