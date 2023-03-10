@@ -12,6 +12,7 @@ const funcGetLogout = async (req, res) => {
   if (googleModel) {
     await Google.findByIdAndUpdate(_id, {
       token: null,
+      ip: null,
     });
 
     return res.status(204).json();
