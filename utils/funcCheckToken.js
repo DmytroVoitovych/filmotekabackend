@@ -12,12 +12,20 @@ const funcCheckToken = async (req, _, next) => {
   try {
     if (!token || token === "undefined") {
       const userIP = await User.findOne({ ip });
+      const googleIP = await Google.findOne({ ip });
       // для синхронізації
       if (userIP) {
         const { token } = userIP;
         if (token) {
           jwt.verify(token, SECRET_KEY);
           req.user = userIP;
+          next();
+          return;
+        }
+      } else if (googleIP) {
+        const { token } = googleIP;
+        if (token) {
+          req.user = googleIP;
           next();
           return;
         }
