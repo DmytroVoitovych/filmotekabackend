@@ -23,7 +23,7 @@ const funcCheckRefreshToken = async (req, _, next) => {
           return;
         }
       } else if (googleIP) {
-        const { token } = userIP;
+        const { token } = googleIP;
         if (token) {
           req.user = googleIP;
           next();
