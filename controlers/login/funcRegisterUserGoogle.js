@@ -23,7 +23,10 @@ const funcRegisterUserGoogle = async (req, res, next) => {
     throw err;
   } else if (check) {
     await Google.findOneAndUpdate(check.email, {
+      email: mail,
+      name: userName,
       token,
+      tokenRefresh,
       ip,
     });
     res.status(201).json({ status: "success", code: 201 });
