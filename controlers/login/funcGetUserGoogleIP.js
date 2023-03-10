@@ -5,8 +5,19 @@ const jwt = require("jsonwebtoken");
 const funcGetUserGoogleIP = async (req, res) => {
   const ip = req.headers["x-forwarded-for"]; // юзер браузер
 
-  const { email, name, _id, token, tokenRefresh } =
-    await Google.findOne({ ip });
+  const {
+    email = "",
+    name = "",
+    _id = "",
+    token = "",
+    tokenRefresh = "",
+  } = await Google.findOne({ ip });
+
+  if (!email) {
+    const err = new Error("Not authorized");
+    err.status = 401;
+    throw err;
+  }
 
   const { exp } = jwt.decode(token);
   const die = new Date(exp * 1000).getTime();
