@@ -1,7 +1,5 @@
 const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { Google } = require("../models/userGoogle");
-
 const { REFRESH_KEY } = process.env;
 
 const funcCheckRefreshToken = async (req, _, next) => {
@@ -12,20 +10,12 @@ const funcCheckRefreshToken = async (req, _, next) => {
   try {
     if (!refresh || refresh === "undefined") {
       const userIP = await User.findOne({ ip });
-      const googleIP = await Google.findOne({ ip });
       // для синхронізації
       if (userIP) {
         const { tokenRefresh } = userIP;
         if (tokenRefresh) {
           jwt.verify(tokenRefresh, REFRESH_KEY);
           req.user = userIP;
-          next();
-          return;
-        }
-      } else if (googleIP) {
-        const { token } = googleIP;
-        if (token) {
-          req.user = googleIP;
           next();
           return;
         }

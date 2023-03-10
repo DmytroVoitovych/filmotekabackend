@@ -41,5 +41,6 @@ router.get(
 ); // вихід
 
 router.post("/googleauth", check(ctrGoogle)); // вхід через гугол
+router.get("/googleIP", check(ctrGoogle));
 
 module.exports = router;

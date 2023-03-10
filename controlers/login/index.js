@@ -4,6 +4,7 @@ const ctrCurrent = require("./funcGetCurrentUser");
 const ctrLogout = require("./funcGetLogout");
 const ctrRefresh = require("./funcPostRefresh");
 const ctrGoogle = require("./funcRegisterUserGoogle");
+const ctrGoogleIP = require("./funcGetUserGoogleIP");
 
 module.exports = {
   ctrSignUp,
@@ -12,4 +13,5 @@ module.exports = {
   ctrLogout,
   ctrRefresh,
   ctrGoogle,
+  ctrGoogleIP,
 };
