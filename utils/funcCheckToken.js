@@ -42,7 +42,9 @@ const funcCheckToken = async (req, _, next) => {
       }
 
       const check = await Google.findOne({
-        email: jwt.decode(token).email, // перевіряю наявність в базі
+        email: jwt.decode(token).email,
+        name: jwt.decode(token).name,
+        // перевіряю наявність в базі
       });
 
       const { id } =
