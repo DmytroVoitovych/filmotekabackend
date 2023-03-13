@@ -6,6 +6,7 @@ const funcGetUserGoogleIP = async (req, res) => {
   const ip = req.headers["x-forwarded-for"]; // юзер браузер
 
   if (!(await Google.findOne({ ip }))) {
+    // якщо нема
     const err = new Error("Not authorized");
     err.status = 401;
     throw err;

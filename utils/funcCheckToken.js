@@ -7,12 +7,13 @@ const { SECRET_KEY } = process.env;
 const funcCheckToken = async (req, _, next) => {
   const { authorization = "" } = req.headers; // беру заголовок
   const [bearer, token] = authorization.split(" "); // забираю данні
-  const ip = req.headers["x-forwarded-for"]; // юзер браузер
+  const ip = req.headers["x-forwarded-for"]; // юзер ip
 
   try {
     if (!token || token === "undefined") {
-      const userIP = await User.findOne({ ip });
-      const googleIP = await Google.findOne({ ip });
+      // звірка по адресі
+      const userIP = await User.findOne({ ip }); // пошук власних юзерів
+      const googleIP = await Google.findOne({ ip }); // пошук тих хто ввійшов через гугл
       // для синхронізації
       if (userIP) {
         const { token } = userIP;
@@ -71,7 +72,6 @@ const funcCheckToken = async (req, _, next) => {
           ip: null,
         }); // update token
         error.status = 498;
-        console.log("jj");
       } else {
         await User.findOneAndUpdate(ip, {
           token: null,
