@@ -1,9 +1,10 @@
 const { Action } = require("../models/film");
 
-const funcCheckFilmsId = async ({ body }, _, next) => {
+const funcCheckFilmsId = async (req, _, next) => {
   try {
-    const { idFilm, type } = body; // перевірка на унікальність
-    const id = await Action.findOne({ idFilm, type });
+    console.log(req.params);
+    const { idFilm } = req.params; // перевірка на унікальність
+    const id = await Action.findOne({ idFilm });
     if (id) {
       const err = new Error(
         `Film with ${idFilm} allready exist`

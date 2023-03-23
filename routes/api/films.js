@@ -2,6 +2,7 @@ const express = require("express");
 const {
   ctrPost,
   ctrGet,
+  ctrDel,
 } = require("../../controlers/film/index");
 const {
   check,
@@ -29,6 +30,14 @@ router.post(
   checkExpire,
   checkFilmId,
   check(ctrPost)
+);
+
+router.delete(
+  "/remove/:idFilm",
+  checkList,
+  checkToken,
+  checkExpire,
+  check(ctrDel)
 );
 
 module.exports = router;
