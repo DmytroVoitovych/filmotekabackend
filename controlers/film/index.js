@@ -1,6 +1,6 @@
 const ctrGet = require("./funcGetFilms");
 const ctrPost = require("./funcPostFilms");
-const ctrDel = require("./funcDelContacts");
+const ctrDel = require("./funcDelFilm");
 
 module.exports = {
   ctrGet,
