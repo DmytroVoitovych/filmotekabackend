@@ -33,7 +33,7 @@ router.post(
 );
 
 router.delete(
-  "/remove/:idFilm",
+  "/remove/:type/:idFilm",
   checkList,
   checkToken,
   checkExpire,

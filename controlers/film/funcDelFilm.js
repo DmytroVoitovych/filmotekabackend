@@ -1,13 +1,14 @@
 const { Action } = require("../../models/film");
 
 const funcDelContacts = async (req, res) => {
-  const { idFilm } = req.params; // id фільма який маю видалити
+  const { idFilm, type } = req.params; // id фільма який маю видалити
   const { id } = req.user; // овнер id
 
   const removeId = await Action.deleteOne({
     // видаляю один
     owner: id,
     idFilm,
+    type,
   });
 
   if (removeId && removeId.deletedCount > 0) {
