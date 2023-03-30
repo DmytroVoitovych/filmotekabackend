@@ -43,6 +43,7 @@ const funcGetTransaction = async ({ user, query }, res) => {
     ),
     page:
       length === 0 ? `sorry this page ${page} empty` : page,
+    totalCount: allList.length ?? 0,
   });
 };
 
