@@ -17,25 +17,38 @@ const funcGetTransaction = async ({ user, query }, res) => {
     });
   }
 
-  const data = await Action.find(
-    { owner: user._id },
+  const watched = await Action.find(
+    { owner: user._id, type: "watched" },
     "type  idFilm",
     { skip, limit: +limit }
   );
-  const length = data.length;
+  const queue = await Action.find(
+    { owner: user._id, type: "queue" },
+    "type  idFilm",
+    { skip, limit: +limit }
+  );
+
+  const length = allList.length;
 
   return res.json({
     status: 200,
-    data: data,
+    data: {
+      watchedFilms: allList.filter(
+        ({ type }) => type === WATCHED
+      ),
+      queueFilms: allList.filter(
+        ({ type }) => type === QUEUE
+      ),
+    },
     watchedFilms: funcGetTypeFilm(
-      data,
+      watched,
       WATCHED,
       page,
       allList,
       limit
     ),
     queueFilms: funcGetTypeFilm(
-      data,
+      queue,
       QUEUE,
       page,
       allList,
