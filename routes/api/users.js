@@ -7,6 +7,7 @@ const {
   checkRefresh,
   checkList,
   checkExpire,
+  checkAnUpdGooTooken,
 } = require("../../utils/index");
 const {
   ctrSignUp,
@@ -42,6 +43,10 @@ router.get(
 ); // вихід
 
 router.post("/googleauth", check(ctrGoogle)); // вхід через гугол
-router.get("/googleIP", check(ctrGoogleIP));
+router.get(
+  "/googleIP",
+  checkAnUpdGooTooken,
+  check(ctrGoogleIP)
+);
 
 module.exports = router;
