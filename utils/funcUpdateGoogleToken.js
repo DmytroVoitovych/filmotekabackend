@@ -6,7 +6,7 @@ const funcUpdateGoogleToken = async (req, res, next) => {
   const [, token] = authorization.split(" "); // забираю данні
 
   // для синхронізації
-  if (token) {
+  if (token || token !== "undefined") {
     await Google.findOneAndUpdate(
       { email: jwt.decode(token).email },
       {
