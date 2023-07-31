@@ -10,6 +10,7 @@ dotenv.config();
 
 const filmsRouter = require("./routes/api/films"); // пути к роутам
 const contactsAuthRouter = require("./routes/api/users"); // пути к роутам
+const feedback = require("./routes/api/services");
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use(
 
 app.use("/api/user/auth", contactsAuthRouter); // роутер для работы с логинизацией
 app.use("/api/films", filmsRouter); // роутер для работы с транзакцией
-
+app.use("/services", feedback);
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
