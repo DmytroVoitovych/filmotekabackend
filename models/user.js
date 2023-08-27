@@ -33,6 +33,10 @@ const userSchema = Schema(
       type: String,
       default: null,
     },
+    resetCode: {
+      type: String,
+      default: null,
+    },
   },
   { versionKey: false, timestamps: true }
 );

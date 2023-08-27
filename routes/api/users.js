@@ -17,6 +17,8 @@ const {
   ctrRefresh,
   ctrGoogle,
   ctrGoogleIP,
+  ctrResetCode,
+  ctrSetNewPass,
 } = require("../../controlers/login/index");
 
 const router = express.Router();
@@ -43,10 +45,15 @@ router.get(
 ); // вихід
 
 router.post("/googleauth", check(ctrGoogle)); // вхід через гугол
+
 router.get(
   "/googleIP",
   checkAnUpdGooTooken,
   check(ctrGoogleIP)
 );
+
+router.get("/resetcode", check(ctrResetCode));
+
+router.patch("/newpassword", check(ctrSetNewPass));
 
 module.exports = router;

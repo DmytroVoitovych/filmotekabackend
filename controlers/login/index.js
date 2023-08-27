@@ -5,6 +5,8 @@ const ctrLogout = require("./funcGetLogout");
 const ctrRefresh = require("./funcPostRefresh");
 const ctrGoogle = require("./funcRegisterUserGoogle");
 const ctrGoogleIP = require("./funcGetUserGoogleIP");
+const ctrResetCode = require("./funcGetResetCode");
+const ctrSetNewPass = require("./funcPathPassword");
 
 module.exports = {
   ctrSignUp,
@@ -14,4 +16,6 @@ module.exports = {
   ctrRefresh,
   ctrGoogle,
   ctrGoogleIP,
+  ctrResetCode,
+  ctrSetNewPass,
 };
