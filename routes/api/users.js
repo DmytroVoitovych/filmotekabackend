@@ -52,7 +52,7 @@ router.get(
   check(ctrGoogleIP)
 );
 
-router.get("/resetcode", check(ctrResetCode));
+router.post("/resetcode", check(ctrResetCode));
 
 router.patch("/newpassword", check(ctrSetNewPass));
 
