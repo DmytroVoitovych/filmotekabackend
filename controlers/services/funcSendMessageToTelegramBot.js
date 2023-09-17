@@ -1,3 +1,4 @@
+const { default: fetch } = require("node-fetch");
 const {
   feedValidation,
 } = require("../../validation/feedValidation");

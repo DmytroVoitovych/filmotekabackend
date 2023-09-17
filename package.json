@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.2",
     "morgan": "1.10.0",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.4",
     "randomstring": "^1.2.2",
     "swagger-ui-express": "^4.6.0"
