@@ -1,4 +1,7 @@
-const { default: fetch } = require("node-fetch");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) =>
+    fetch(...args)
+  );
 const {
   feedValidation,
 } = require("../../validation/feedValidation");
